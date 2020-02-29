@@ -2,6 +2,7 @@ package utils;
 
 import org.osbot.rs07.api.GrandExchange;
 import org.osbot.rs07.api.GrandExchange.Box;
+import org.osbot.rs07.api.ui.RS2Widget;
 import org.osbot.rs07.script.Script;
 
 import java.util.ArrayList;
@@ -11,6 +12,13 @@ import java.util.List;
 public final class GEUtils {
     private static final int F2P_BOX_COUNT = 3;
 
+    // Widget IDs
+    private static int CHATBOX_WIDGET_ID;
+    private static int GE_WIDGET_ID;
+
+    private static final int SEARCH_WIDGET_ID = 53;
+    private static final int PRICE_WIDGET_ID = 26;
+
     private static Script script;
 
     private GEUtils() {
@@ -19,6 +27,9 @@ public final class GEUtils {
 
     public static void setup(Script script) {
         GEUtils.script = script;
+
+        CHATBOX_WIDGET_ID = script.getChatbox().getInterfaceId();
+        GE_WIDGET_ID = script.getGrandExchange().getInterfaceId();
     }
 
     public static Box getFirstAvailableBox() {
@@ -34,5 +45,13 @@ public final class GEUtils {
             }
         }
         return null;
+    }
+
+    public static RS2Widget getFirstSearchResultWidget() {
+        return script.getWidgets().get(CHATBOX_WIDGET_ID, SEARCH_WIDGET_ID, 1);
+    }
+
+    public static RS2Widget getPriceWidget() {
+        return script.getWidgets().get(GE_WIDGET_ID, PRICE_WIDGET_ID);
     }
 }
