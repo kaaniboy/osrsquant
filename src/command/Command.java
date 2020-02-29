@@ -1,6 +1,6 @@
 package command;
 
-import bot.ClientUtils;
+import utils.ClientUtils;
 import org.osbot.rs07.script.Script;
 
 public abstract class Command {

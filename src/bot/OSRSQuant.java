@@ -4,12 +4,21 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.awt.*;
 
+import command.BuyGECommand;
 import command.Command;
 import command.OpenGECommand;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
+import utils.ClientUtils;
+import utils.GEUtils;
 
-@ScriptManifest(name = "OSRS Quant", author = "kaaniboy,steven85048", version = 1.0, info = "", logo = "")
+@ScriptManifest(
+        name = "OSRS Quant",
+        author = "kaaniboy,steven85048",
+        version = 1.0,
+        info = "",
+        logo = ""
+)
 public class OSRSQuant extends Script {
     private static final int LOOP_TIME = 800;
 
@@ -18,7 +27,9 @@ public class OSRSQuant extends Script {
     @Override
     public void onStart() {
         ClientUtils.setup(this);
+        GEUtils.setup(this);
         commands.offer(new OpenGECommand());
+        commands.offer(new BuyGECommand());
     }
 
     @Override

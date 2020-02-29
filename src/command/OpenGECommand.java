@@ -3,9 +3,8 @@ package command;
 import org.osbot.rs07.api.model.NPC;
 import utils.Timing;
 
-import static bot.ClientUtils.TIMEOUT_DURATION;
-
-import static bot.ClientUtils.log;
+import static utils.ClientUtils.TIMEOUT_DURATION;
+import static utils.ClientUtils.log;
 
 public class OpenGECommand extends Command {
     private final String GE_CLERK_NAME = "Grand Exchange Clerk";
@@ -13,6 +12,10 @@ public class OpenGECommand extends Command {
 
     @Override
     public boolean execute() {
+        if (script.getGrandExchange().isOpen()) {
+            return true;
+        }
+
         NPC clerk = script.getNpcs().closest(GE_CLERK_NAME);
         if (clerk == null) {
             log("Failed to locate GE clerk");
