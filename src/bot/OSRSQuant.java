@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.awt.*;
 
-import command.BuyGECommand;
-import command.Command;
-import command.OpenGECommand;
+import command.*;
+import org.osbot.rs07.api.def.ItemDefinition;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
 import utils.ClientUtils;
@@ -28,8 +27,10 @@ public class OSRSQuant extends Script {
     public void onStart() {
         ClientUtils.setup(this);
         GEUtils.setup(this);
+
         commands.offer(new OpenGECommand());
-        commands.offer(new BuyGECommand());
+        commands.offer(new OpenBuyScreenCommand());
+        commands.offer(new SelectBuyItemCommand(ItemDefinition.forId(1333)));
     }
 
     @Override

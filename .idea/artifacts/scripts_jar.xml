@@ -3,7 +3,7 @@
     <output-path>$USER_HOME$/OSBot/Scripts/</output-path>
     <root id="archive" name="scripts_jar.jar">
       <element id="module-output" name="OsrsQuant" />
-      <element id="library" level="project" name="OSBot 2.5.70" />
+      <element id="library" level="project" name="OSBot_2.5.70" />
     </root>
   </artifact>
 </component>
