@@ -1,22 +1,32 @@
 package command;
 
 import org.osbot.rs07.api.GrandExchange;
+import org.osbot.rs07.api.def.ItemDefinition;
 import utils.GEUtils;
 
-import static utils.ClientUtils.log;
+public class BuyCommand extends Command {
+    private final ItemDefinition item;
+    private int price;
+    private int quantity;
 
-public class BuyGECommand extends Command {
-    private static final int FIRE_RUNE_ID = 554;
+    public BuyCommand(ItemDefinition item, int price, int quantity) {
+        this.item = item;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     @Override
     public boolean execute() {
         GrandExchange.Box box = GEUtils.getFirstAvailableBox();
         if (box == null) {
-            log("No G.E. boxes are available");
             return false;
         }
 
-        script.getGrandExchange().buyItem(FIRE_RUNE_ID, "fire rune", 5,1);
-
-        return true;
+        return script.getGrandExchange().buyItem(
+                item.getId(),
+                item.getName().toLowerCase(),
+                price,
+                quantity
+        );
     }
 }
