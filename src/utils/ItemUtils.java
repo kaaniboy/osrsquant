@@ -1,12 +1,14 @@
 package utils;
 
 import models.SimpleItemDefinition;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +30,8 @@ public final class ItemUtils {
     private static final boolean F2P_ITEMS_ONLY = true;
 
     private static List<SimpleItemDefinition> mostTraded;
+    private static Iterator<SimpleItemDefinition> mostTradedIterator;
+    private static SimpleItemDefinition currentItem;
 
     private void ItemUtils() {
 
@@ -35,6 +39,22 @@ public final class ItemUtils {
 
     public static void setup() {
         mostTraded = loadMostTraded();
+        mostTraded = mostTraded.subList(0, 3);
+        mostTradedIterator = mostTraded.listIterator();
+    }
+
+    public static SimpleItemDefinition getNextItem() {
+        if (mostTradedIterator.hasNext()) {
+            currentItem = mostTradedIterator.next();
+            return currentItem;
+        }
+        mostTradedIterator = mostTraded.listIterator();
+        currentItem = getNextItem();
+        return currentItem;
+    }
+
+    public static SimpleItemDefinition getCurrentItem() {
+        return currentItem;
     }
 
     private static List<SimpleItemDefinition> loadMostTraded() {
@@ -60,7 +80,7 @@ public final class ItemUtils {
                 int itemID = Integer.parseInt(itemIDMatcher.group().split("=")[1]);
                 String itemName = itemNameMatcher.group()
                         .split("=")[1].replace("\"", "");
-                
+
                 items.add(new SimpleItemDefinition(itemID, itemName));
             }
         }
