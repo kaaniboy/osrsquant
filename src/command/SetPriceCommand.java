@@ -1,8 +1,8 @@
 package command;
 
-public class BuyHighForMarginCommand extends Command {
+public class SetPriceCommand extends Command {
     @Override
     public boolean execute() {
-        this.script.getGrandExchange().buyItem()
+        return true;
     }
 }
