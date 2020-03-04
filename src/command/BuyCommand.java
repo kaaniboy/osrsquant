@@ -1,15 +1,15 @@
 package command;
 
+import models.SimpleItemDefinition;
 import org.osbot.rs07.api.GrandExchange;
-import org.osbot.rs07.api.def.ItemDefinition;
 import utils.GEUtils;
 
 public class BuyCommand extends Command {
-    private final ItemDefinition item;
+    private final SimpleItemDefinition item;
     private int price;
     private int quantity;
 
-    public BuyCommand(ItemDefinition item, int price, int quantity) {
+    public BuyCommand(SimpleItemDefinition item, int price, int quantity) {
         this.item = item;
         this.price = price;
         this.quantity = quantity;
@@ -23,7 +23,7 @@ public class BuyCommand extends Command {
         }
 
         return script.getGrandExchange().buyItem(
-                item.getId(),
+                item.getID(),
                 item.getName().toLowerCase(),
                 price,
                 quantity

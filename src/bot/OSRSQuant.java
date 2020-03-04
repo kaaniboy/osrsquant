@@ -6,10 +6,12 @@ import java.awt.*;
 
 import command.*;
 import org.osbot.rs07.api.def.ItemDefinition;
+import org.osbot.rs07.api.model.Item;
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
 import utils.ClientUtils;
 import utils.GEUtils;
+import utils.ItemUtils;
 
 @ScriptManifest(
         name = "OSRS Quant",
@@ -27,10 +29,10 @@ public class OSRSQuant extends Script {
     public void onStart() {
         ClientUtils.setup(this);
         GEUtils.setup(this);
+        ItemUtils.setup();
 
         commands.offer(new OpenGECommand());
         commands.offer(new OpenBuyScreenCommand());
-        commands.offer(new SelectBuyItemCommand(ItemDefinition.forId(1333)));
     }
 
     @Override

@@ -1,14 +1,14 @@
 package command;
 
-import org.osbot.rs07.api.def.ItemDefinition;
+import models.SimpleItemDefinition;
 import org.osbot.rs07.api.ui.RS2Widget;
 import utils.GEUtils;
 
 public class SelectBuyItemCommand extends Command {
     private static final String SELECT_ITEM = "Select";
-    private ItemDefinition item;
+    private SimpleItemDefinition item;
 
-    public SelectBuyItemCommand(ItemDefinition item) {
+    public SelectBuyItemCommand(SimpleItemDefinition item) {
         this.item = item;
     }
 

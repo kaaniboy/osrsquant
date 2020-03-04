@@ -1,6 +1,6 @@
 package utils;
 
-import org.osbot.rs07.api.def.ItemDefinition;
+import models.SimpleItemDefinition;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,27 +8,64 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static utils.ClientUtils.log;
 
 public final class ItemUtils {
     private static final String MOST_TRADED_URL = "http://services.runescape.com/m=itemdb_oldschool/top100?list=0";
+
+    private static final String ROW_REGEX = "<tr.*?<\\/tr>";
+    private static final String ITEM_ID_REGEX = "obj=\\d+";
+    private static final String ITEM_NAME_REGEX = "alt=\\\".*?\\\"";
+
+    private static final Pattern rowPattern = Pattern.compile(ROW_REGEX);
+    private static final Pattern itemIDPattern = Pattern.compile(ITEM_ID_REGEX);
+    private static final Pattern itemNamePattern = Pattern.compile(ITEM_NAME_REGEX);
+
+    private static final String P2P_ITEM_INDICATOR = "memberItem";
     private static final boolean F2P_ITEMS_ONLY = true;
 
-    private static List<ItemDefinition> mostTraded;
+    private static List<SimpleItemDefinition> mostTraded;
 
-    private ItemUtils() {
+    private void ItemUtils() {
 
     }
 
     public static void setup() {
         mostTraded = loadMostTraded();
-
     }
 
-    private static List<ItemDefinition> loadMostTraded() {
+    private static List<SimpleItemDefinition> loadMostTraded() {
         String contents = loadPageContents(MOST_TRADED_URL);
-        return new ArrayList<>();
+
+        if (contents == null) {
+            return new ArrayList<>();
+        }
+
+        List<SimpleItemDefinition> items = new ArrayList<>();
+        Matcher rowMatcher = rowPattern.matcher(contents);
+
+        while (rowMatcher.find()) {
+            String row = rowMatcher.group();
+            if (F2P_ITEMS_ONLY && row.contains(P2P_ITEM_INDICATOR)) {
+                continue;
+            }
+
+            Matcher itemIDMatcher = itemIDPattern.matcher(row);
+            Matcher itemNameMatcher = itemNamePattern.matcher(row);
+
+            if (itemIDMatcher.find() && itemNameMatcher.find()) {
+                int itemID = Integer.parseInt(itemIDMatcher.group().split("=")[1]);
+                String itemName = itemNameMatcher.group()
+                        .split("=")[1].replace("\"", "");
+                
+                items.add(new SimpleItemDefinition(itemID, itemName));
+            }
+        }
+
+        return items;
     }
 
     private static String loadPageContents(String address) {

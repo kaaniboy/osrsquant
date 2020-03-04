@@ -12,7 +12,7 @@ OSBuddy API.
 
 See: https://osbot.org/forum/topic/149620-return-value/?ct=1583006970
  */
-public class RetrievePriceCommand extends Command {
+public class GetPriceCommand extends Command {
     @Override
     public boolean execute() {
         RS2Widget priceWidget = GEUtils.getPriceWidget();
